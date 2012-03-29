@@ -2,7 +2,7 @@
 
 Embeds the Google Website Translator into Sina Weibo
 
-See [userscripts.org](http://userscripts.org/scripts/show/30878) for more details
+See [userscripts.org](http://userscripts.org/scripts/show/129544) for more details
 
 ## Changelog: ##
 
