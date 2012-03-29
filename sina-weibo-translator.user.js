@@ -198,27 +198,31 @@
 
 				iframe.frameBorder = '0';
 				iframe.scrolling = 'no';
-				iframe.style.borderColor = '#ccc';
-				iframe.style.borderStyle = 'solid';
-				iframe.style.borderWidth = '1px 1px 0 0';
-				iframe.style.bottom = '0';
-				iframe.style.height = '39px';
-				iframe.style.left = '0';
-				iframe.style.position = 'fixed';
-				iframe.style.zIndex = '10000';
+				setStyle( iframe, {
+					borderColor: '#ccc',
+					borderStyle: 'solid',
+					borderWidth: '1px 1px 0 0',
+					bottom: '0',
+					height: '39px',
+					left: '0',
+					position: 'fixed',
+					zIndex: '10000'
+				} );
 
-				body.style.background = '#fff';
-				body.style.margin = '0';
-				body.style.padding = '0';
+				setStyle( body, {
+					background: '#fff',
+					margin: '0',
+					padding: '0'
+				} );
 
 				link.href = HOMEPAGE_URL;
 				link.target = '_blank';
-				link.style.color = '#00f';
-				link.style.display = 'inline-block';
-				link.style.fontFamily = 'arial';
-				link.style.fontSize = '10pt'; // why does Google use pt?
-				link.style.lineHeight = '39px';
-				link.style.padding = '0 10px';
+				setStyle( link, {
+					color: '#00f',
+					display: 'inline-block',
+					font: '10pt/39px arial', // why does Google use pt?
+					padding: '0 10px'
+				} );
 
 				link.appendChild( doc.createTextNode( UPDATE_AVAILABLE ) );
 				body.appendChild( link );
@@ -323,38 +327,15 @@
 
 
 
-
-
 	/*
 	 * manipulate styles
 	 */
-/*
-	// returns a style element for the given selector and rules
-	function getStyleElement( selector, rules, id ) {
-		var buf = [ '<style id="', id || '', '" type="text/css">', selector, '{' ];
+	// sets styles on an element
+	function setStyle( element, rules ) {
+		var style = element.style;
 
-		$.each( rules, function( prop, val ) { buf.push( prop, ':', val, ';' ); } );
-
-		buf.push('}</style>');
-
-		return $( buf.join( '' ) );
+		$.each( rules, function( prop, val ) { style[ prop ] = val; } );
 	}
-
-	// returns a string for the given tag and rules object
-	function getInlineStyle( tag, rules ) {
-		var buf = [ 'style="' ];
-
-		if ( tag !== false ) {
-			rules = $.extend( {}, css.defaults.reset, css.defaults[ tag ], rules || {} );
-		}
-		$.each( rules, function( prop, val ) { buf.push( prop, ':', val, ';' ); } );
-
-		buf.push('"');
-
-		return buf.join( '' );
-	}
-*/
-
 
 
 
