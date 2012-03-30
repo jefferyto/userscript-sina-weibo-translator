@@ -72,7 +72,7 @@
 		}
 
 		if ( string.indexOf( '#' ) === 0 ) {
-			el = document.getElementById( string.substring(1) );
+			el = document.getElementById( string.substring( 1 ) );
 			if ( el && context && !( context.compareDocumentPosition( el ) & 16 ) ) {
 				el = undefined;
 			}
@@ -191,7 +191,7 @@
 	// show the update link if an update is available
 	function showUpdateAvailable() {
 		if ( options.latestVersion > VERSION ) {
-			makeFrame(function (iframe) {
+			makeFrame( function( iframe ) {
 				var doc = iframe.contentWindow.document,
 					body = doc.body,
 					link = doc.createElement( 'a' );
@@ -228,7 +228,7 @@
 				body.appendChild( link );
 
 				iframe.style.width = link.offsetWidth + 'px';
-			});
+			} );
 		}
 	}
 
@@ -382,45 +382,50 @@
 	 * iframe
 	 */
 
+	// creates an iframe and passes it to the given callback, working around Firefox iframe bugs
 	// based on https://ecmanaut.googlecode.com/svn/trunk/lib/make-iframe.js
-	function makeFrame(callback, name) {
+	function makeFrame( callback, name ) {
 		var frames = makeFrame.data || {}, data, iframe;
 
 		function done() {
-			clearTimeout(data.timeout);
-			data = frames[name] = null;
+			clearTimeout( data.timeout );
+			data = frames[ name ] = null;
 			iframe.style.position = iframe.style.left = iframe.style.top = iframe.style.width = iframe.style.height = '';
-			callback(iframe);
+			callback( iframe );
 		}
 
 		function testInvasion() {
 			var url;
-			iframe.removeEventListener('load', done, true);
+			iframe.removeEventListener( 'load', done, true );
 			try { // probe for security violation error, in case mozilla struck a bug
-				url = unsafeWindow.frames[name].location.href;
+				url = unsafeWindow.frames[ name ].location.href;
 				done();
-			} catch (e) {
-				document.body.removeChild(iframe);
-				makeFrame(callback, name);
+			} catch ( e ) {
+				document.body.removeChild( iframe );
+				makeFrame( callback, name );
 			}
 		}
 
 		name = name || 'iframe' + getToken();
 
-		data = frames[name] = frames[name] || { sleepFor: 400 };
+		data = frames[ name ] = frames[ name ] || { sleepFor: 400 };
 
-		iframe = document.createElement("iframe");
+		iframe = document.createElement( 'iframe' );
 		iframe.name = name;
-		iframe.style.position = 'absolute';
-		iframe.style.left = iframe.style.top = '-99999px';
-		iframe.style.width = iframe.style.height = '1px';
+		setStyle( iframe, {
+			height: '1px',
+			left: '-99999px',
+			position: 'absolute',
+			top: '-99999px',
+			width: '1px'
+		} );
 		iframe.src = 'about:blank';
-		iframe.addEventListener('load', done, true);
+		iframe.addEventListener( 'load', done, true );
 
-		data.timeout = setTimeout(testInvasion, data.sleepFor);
+		data.timeout = setTimeout( testInvasion, data.sleepFor );
 		data.sleepFor *= 1.5;
 
-		document.body.appendChild(iframe);
+		document.body.appendChild( iframe );
 	}
 
 
