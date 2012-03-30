@@ -137,7 +137,7 @@
 	// these aren't actual options but things we need to remember
 	$.extend( defaultOptions, {
 		lastUpdateCheck: '0', // GM_setValue can only store 32-bit integers, so we need to save this as a string
-		latestVersion: ''
+		latestVersion: VERSION
 	} );
 
 	// restore, then save, options
@@ -357,10 +357,11 @@
 				url: META_URL + '?_=' + now(),
 
 				onload: function( data ) {
-					var a = /\/\/[ \t]*@version[ \t]+([^\s]+)/.exec( data.responseText || '' );
+					var a = /\/\/[ \t]*@version[ \t]+([^\s]+)/.exec( data.responseText || '' ),
+						ver = ( a && a[ 1 ] ) || VERSION;
 
-					if ( data.status === 200 ) {
-						options.latestVersion = ( a && a[ 1 ] ) || '';
+					if ( data.status === 200 && ver >= VERSION ) {
+						options.latestVersion = ver;
 						saveOptions();
 					}
 
